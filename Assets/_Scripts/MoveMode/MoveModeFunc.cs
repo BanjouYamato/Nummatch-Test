@@ -33,6 +33,7 @@ public class MoveModeFunc : MonoBehaviour
         yield return null;
         StartSolve();
     }
+    // tạo bảng giả lập
     void CreateBoard()
     {
         if(_numbList.Count > 0)
@@ -69,6 +70,7 @@ public class MoveModeFunc : MonoBehaviour
         qty = input.Length;
         test = numb5 / 2;
     }
+    // Tìm tất cả các cặp có thể match
     List<Move> GetAllValidMove()
     {
         List<Move> moveList = new();
@@ -95,6 +97,7 @@ public class MoveModeFunc : MonoBehaviour
         }
         return moveList;
     }
+    // in ra file txt
     void StartSolve()
     {
         currentPath = new();
@@ -124,14 +127,15 @@ public class MoveModeFunc : MonoBehaviour
     }
     void Solve()
     {
+        // thu thập đủ cặp 5 thì ngắt đệ quy
         if(collected >= required)
         {
-            Debug.Log("nhung oi anh yeu em");
+            Debug.Log("done");
             Solutions.Add(new List<Move>(currentPath));
             return;
         }
         var moves = GetAllValidMove();
-        if (moves.Count == 0) return;
+        if (moves.Count == 0) return; // hoăc hệ cặp match
         foreach( var move in moves )
         {
             SaveState();
@@ -156,12 +160,14 @@ public class MoveModeFunc : MonoBehaviour
         var isRowClearB = _check.CheckRow(r2);
         if (isRowClearA || isRowClearB) _check.ClearRow();
     }
+    // lưu lại vị thông tin trước của curentBoard, để backup lại nếu đi vào đường cụt
     void SaveState()
     {
         backupSlot = (int[,])slot.Clone();
         backupComplete = (bool[,])isComplete.Clone();
         backupCollected = collected;
     }
+    // khôi phục backup
     void RestoreState()
     {
         int cols = ValueConstant.cols;
