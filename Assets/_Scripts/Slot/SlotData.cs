@@ -88,6 +88,7 @@ public class SlotData : MonoBehaviour, IPointerClickHandler
         _numbSprite.sprite = _slot._numbSprite.sprite;
         _numbSprite.color = _slot._numbSprite.color;
         _isData = _slot._isData;
+        _isComplete = _slot._isComplete;
     }
     private void OnDisable()
     {
