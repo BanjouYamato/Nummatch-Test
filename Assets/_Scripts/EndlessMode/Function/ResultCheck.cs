@@ -146,8 +146,9 @@ public class ResultCheck : MonoBehaviour
 
         for (int i = 0; i < dataSlots.Count; i++)
         {
-            for (int j = i + 1; j < dataSlots.Count; j++)
+            for (int j = 0; j < dataSlots.Count; j++)
             {
+                if (dataSlots[j] == dataSlots[i]) continue;
                 var a = dataSlots[i];
                 var b = dataSlots[j];
 
