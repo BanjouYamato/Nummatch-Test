@@ -38,7 +38,7 @@ public class MatchCheckMove : MonoBehaviour
 
         if (dc == 0) return PosType.vertical;
         if (dr == 0) return PosType.horizontal;
-        if (Mathf.Abs(dr) == Mathf.Abs(dc))
+        if (Mathf.Abs(dr) == Mathf.Abs(dc) && Mathf.Abs(dr) == Mathf.Abs(dc))
         {
             if (dr * dc > 0) return PosType.leftDiagonal;
             else if (dr * dc < 0) return PosType.rightDiagonal;
