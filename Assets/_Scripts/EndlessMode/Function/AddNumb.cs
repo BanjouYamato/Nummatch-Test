@@ -10,7 +10,7 @@ public class AddNumb : MonoBehaviour
     int _numbPosible;
     public int Numb => _numbPosible;
     [SerializeField] TextMeshProUGUI _numbText;
-    [SerializeField] AudioClip _audioClip;
+
 
     private void Start()
     {
@@ -39,12 +39,11 @@ public class AddNumb : MonoBehaviour
         if(newNumbList.Count + TotalData.Count  > _spawn.Slots.Count)
         {
             int extra = newNumbList.Count + TotalData.Count - _spawn.Slots.Count;
-            int extraRow = Mathf.CeilToInt(extra/ValueConstant.cols);
+            int extraRow = Mathf.CeilToInt((float)extra/ValueConstant.cols);
             int newSlotAdd = extraRow * ValueConstant.cols;
             _spawn.AddMoreSlot(newSlotAdd);
         }
         StartCoroutine(AddEffect(TotalData.Count, newNumbList.Count + TotalData.Count, newNumbList));
-        Debug.Log(TotalData.Count);
     }
     // hiệu ứng add từng số
     IEnumerator AddEffect(int start, int end, List<SlotData> values)
@@ -52,7 +51,6 @@ public class AddNumb : MonoBehaviour
         int valueIndex = 0;
         for(int i=start; i < end; i++)
         {
-            SFXManager.instance.PlaySFX(_audioClip);
             var targetSlot = _spawn.Slots[i];
             var value = values[valueIndex]._info.value;
             targetSlot.SetValue(value, _spawn.NumbSprites[value - 1]);

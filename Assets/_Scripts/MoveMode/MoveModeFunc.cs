@@ -38,8 +38,9 @@ public class MoveModeFunc : MonoBehaviour
     {
         if(_numbList.Count > 0)
         {
-            int rowVolume = _numbList.Count / ValueConstant.cols;
+            int rowVolume = Mathf.CeilToInt((float)_numbList.Count / ValueConstant.cols);
             int colVolume = ValueConstant.cols;
+            Debug.Log(rowVolume);
             slot = new int[rowVolume, colVolume];
             isComplete = new bool[rowVolume, colVolume];
             for (int i = 0; i < _numbList.Count; i++) 
@@ -75,7 +76,7 @@ public class MoveModeFunc : MonoBehaviour
     {
         List<Move> moveList = new();
         int cols = ValueConstant.cols;
-        int rows = qty / cols;
+        int rows = Mathf.CeilToInt((float)_numbList.Count / ValueConstant.cols);
         for (int r1 = 0; r1 < rows; r1++)
         {
             for(int c1 = 0; c1 < cols; c1++)
@@ -107,7 +108,7 @@ public class MoveModeFunc : MonoBehaviour
         var best10 = Solutions.OrderBy(solution => solution.Count)
             .Take(10).ToList();
         string fileName = $"output.txt";
-        string path = Path.Combine(ValueConstant.path, fileName);
+        string path = Path.Combine(Application.persistentDataPath, fileName);
         using (StreamWriter writer = new StreamWriter(path, false)) // path là biến bạn đã có
         {
             int index = 1;
@@ -123,7 +124,7 @@ public class MoveModeFunc : MonoBehaviour
             }
         }
 
-        Debug.Log("Đã ghi kết quả ra file: " + ValueConstant.path);
+        Debug.Log("Đã ghi kết quả ra file: " + path);
     }
     void Solve()
     {
@@ -171,7 +172,7 @@ public class MoveModeFunc : MonoBehaviour
     void RestoreState()
     {
         int cols = ValueConstant.cols;
-        int rows = qty / cols;
+        int rows = Mathf.CeilToInt((float)_numbList.Count / ValueConstant.cols);
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < cols; c++)

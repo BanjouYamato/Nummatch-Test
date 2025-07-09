@@ -20,14 +20,14 @@ public class MatchCheckMove : MonoBehaviour
         {
             case PosType.vertical:
                 return CheckVertical(r1, c1, r2, c2);
-            case PosType.hoirzontal:
+            case PosType.horizontal:
                 return CheckHorizontal(r1, c1, r2, c2);
             case PosType.leftDiagonal:
                 return CheckDia(r1, c1, r2, c2);
             case PosType.rightDiagonal:
                 return CheckDia(r1,c1, r2, c2); 
         }
-        return false;
+        return CheckIndex(r1,c1,r2,c2);
     }
     PosType GetDirectionType(int r1, int c1, int r2, int c2)
     {
@@ -37,7 +37,7 @@ public class MatchCheckMove : MonoBehaviour
         if (dr == 0 && dc == 0) return PosType.invalid;
 
         if (dc == 0) return PosType.vertical;
-        if (dr == 0) return PosType.hoirzontal;
+        if (dr == 0) return PosType.horizontal;
         if (Mathf.Abs(dr) == Mathf.Abs(dc))
         {
             if (dr * dc > 0) return PosType.leftDiagonal;
@@ -46,6 +46,20 @@ public class MatchCheckMove : MonoBehaviour
             
 
         return PosType.invalid;
+    }
+    bool CheckIndex(int r1, int c1, int r2, int c2)
+    {
+        int index1 = r1 * ValueConstant.cols + c1;
+        int index2 = r2 * ValueConstant.cols + c2;
+        int minIndex = Mathf.Min(index1, index2);
+        int maxIndex = Mathf.Max(index1, index2);
+        for (int i = minIndex + 1; i < maxIndex; i++)
+        {
+            int r = i / ValueConstant.cols;
+            int c = i % ValueConstant.cols;
+            if (!_mode.isComplete[r, c]) return false;
+        }
+        return true;
     }
     bool CheckVertical(int r1,int c1,int r2, int c2)
     {

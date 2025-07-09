@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +6,7 @@ using UnityEngine;
 public class MatchCheck : MonoBehaviour
 {
     public Dictionary<(int, int), SlotData> slots = new();
+    [SerializeField] SpawnNumb _spawn; 
 
     // chuyển hóa list thành dictionary giả lập thay cho mảng 2 chiều (em dùng dictionary thay mảng vì trường hợp thay đổi kích thước)
     public void AddToDiction(List<SlotData> datas)
@@ -18,10 +18,10 @@ public class MatchCheck : MonoBehaviour
     {
         int minRow = Mathf.Max(0, _slot._row - 1);
         int minCol = Mathf.Max(0, _slot._column - 1);
-        int maxCol = Mathf.Min(9, _slot._column + 1);
+        int maxCol = Mathf.Min(8, _slot._column + 1);
         for (int i = minRow; i < _slot._row + 1 + 1; i++)
         {
-            for (int j = minCol; j < maxCol + 1; j++)
+            for (int j = minCol; j < maxCol; j++)
             {
                 slots.TryGetValue((i, j), out var slot);
                 if (slot != null && slot._isData)
@@ -46,14 +46,14 @@ public class MatchCheck : MonoBehaviour
         {
             case PosType.vertical:
                 return HandleCheckVertical(a, b);
-            case PosType.hoirzontal:
+            case PosType.horizontal:
                 return HandleCheckHorizontal(a, b);
             case PosType.leftDiagonal:
                 return HandleCheckLeftDiagonal(a, b);
             case PosType.rightDiagonal:
                 return HandleCheckRightDiagonal(a, b);
             default:
-                return false;
+                return IndexCheck(a,b);
         }
     }
     // xác định xem 2 slot nằm ở hướng nào của nhau
@@ -65,8 +65,8 @@ public class MatchCheck : MonoBehaviour
         int dirCol = Math.Sign(dCol);
         if (dirRow == 1 && dirCol == 0) return PosType.vertical;
         else if (dirRow == -1 && dirCol == 0) return PosType.vertical;
-        else if (dirRow == 0 && dirCol == 1) return PosType.hoirzontal;
-        else if (dirRow == 0 && dirCol == -1) return PosType.hoirzontal;
+        else if (dirRow == 0 && dirCol == 1) return PosType.horizontal;
+        else if (dirRow == 0 && dirCol == -1) return PosType.horizontal;
         else if (dirRow == -1 && dirCol == -1) return PosType.leftDiagonal;
         else if (dirRow == -1 && dirCol == 1) return PosType.rightDiagonal;
         else if (dirRow == 1 && dirCol == -1) return PosType.rightDiagonal;
@@ -138,13 +138,25 @@ public class MatchCheck : MonoBehaviour
         return true;
     }
 
+    // check có số chặn heo index
+    bool IndexCheck(SlotData a, SlotData b)
+    {
+        int indexA = a._info._index;
+        int indexB = b._info._index;
+        for(int i = indexA + 1; i < indexB; i++)
+        {
+            if (_spawn.Slots[i] != null && (!_spawn.Slots[i]._isComplete && _spawn.Slots[i]._isData)) return false;
+        }
+        return true;
+    }
+
 
     // lúc sau khi làm move mode em nghĩ ra cách để code ngắn hơn nên có đổi lai khi check ở move mode
 }
 public enum PosType
 {
     vertical,
-    hoirzontal,
+    horizontal,
     leftDiagonal,
     rightDiagonal,
     invalid

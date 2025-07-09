@@ -3874,6 +3874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawn: {fileID: 2035103543}
   _numbText: {fileID: 1990307753}
+  _audioClip: {fileID: 0}
 --- !u!1 &1438143070
 GameObject:
   m_ObjectHideFlags: 0
@@ -4003,6 +4004,7 @@ MonoBehaviour:
   _score: {fileID: 959527078}
   _spawn: {fileID: 2035103543}
   scoreText: {fileID: 696420765}
+  _add: {fileID: 1427393040}
 --- !u!1 &1556790721
 GameObject:
   m_ObjectHideFlags: 0

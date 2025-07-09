@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,6 +60,12 @@ public class SpawnNumb : MonoBehaviour
                 return 1;
         }
     }
+    // kiểm tra số lượng các số đang có trên board
+    bool CheckQty(int value)
+    {
+        var ListValue = Slots.Where(slot => slot._isData && slot._info.value == value).ToList();
+        return ListValue.Count < 4;
+    }
     public void SpawnAllFirstStep()
     {
         for (int i = 0; i < _firstAppear; i++)
@@ -69,7 +76,7 @@ public class SpawnNumb : MonoBehaviour
             {
                 var temp = new SlotInfo(i);
                 temp.value = v;
-                if (!_check.CheckCreate(temp))
+                if (!_check.CheckCreate(temp) && CheckQty(v))
                 {
                     candiates.Add(v);
                 }
