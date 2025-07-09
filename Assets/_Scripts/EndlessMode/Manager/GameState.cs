@@ -17,6 +17,13 @@ public class GameState : MonoBehaviour
         }
         else Destroy(gameObject);
     }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SelectState(State.stageClear);
+        }
+    }
     public void SelectState(State state)
     {
         _state = state;

@@ -21,7 +21,6 @@ public class ResultCheck : MonoBehaviour
     {
         if (selectedSlot.Count != 2) return; // nếu select 2 ô thì mới check
         var result = OnCheck(selectedSlot[0], selectedSlot[1]);
-        Debug.Log(result);
         if (!result)
         {
             // nếu không match thì chạy hiệu ứng sai
@@ -74,7 +73,6 @@ public class ResultCheck : MonoBehaviour
     {
         int row = slot._info._row;
         var result = CheckRowComplete(slot);
-        Debug.Log(result);
         if (result == true)
         {
             clearSlot.Add(row);

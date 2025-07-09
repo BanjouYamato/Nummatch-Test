@@ -64,7 +64,7 @@ public class SpawnNumb : MonoBehaviour
     bool CheckQty(int value)
     {
         var ListValue = Slots.Where(slot => slot._isData && slot._info.value == value).ToList();
-        return ListValue.Count < 4;
+        return ListValue.Count +1 < 5;
     }
     public void SpawnAllFirstStep()
     {

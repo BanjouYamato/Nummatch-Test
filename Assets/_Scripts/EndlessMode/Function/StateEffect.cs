@@ -52,6 +52,7 @@ public class StateEffect : MonoBehaviour
                 _spawn.SpawnAllFirstStep();
                 st.text = $"Stage {_spawn._stage}";
                 _add.SetNumb(6);
+                GameState.Instance.SelectState(State.play);
             });           
     }
     public void ScoreEff(int score, Transform pos)

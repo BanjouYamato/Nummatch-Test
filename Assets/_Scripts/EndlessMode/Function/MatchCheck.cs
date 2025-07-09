@@ -18,8 +18,8 @@ public class MatchCheck : MonoBehaviour
     {
         int minRow = Mathf.Max(0, _slot._row - 1);
         int minCol = Mathf.Max(0, _slot._column - 1);
-        int maxCol = Mathf.Min(8, _slot._column + 1);
-        for (int i = minRow; i < _slot._row + 1 + 1; i++)
+        int maxCol = Mathf.Min(9, _slot._column + 2);
+        for (int i = minRow; i < _slot._row + 1; i++)
         {
             for (int j = minCol; j < maxCol; j++)
             {
@@ -52,9 +52,9 @@ public class MatchCheck : MonoBehaviour
                 return HandleCheckLeftDiagonal(a, b);
             case PosType.rightDiagonal:
                 return HandleCheckRightDiagonal(a, b);
-            default:
-                return IndexCheck(a,b);
+                
         }
+        return IndexCheck(a, b);
     }
     // xác định xem 2 slot nằm ở hướng nào của nhau
     public PosType? CheckPos(SlotData a, SlotData b)
@@ -63,14 +63,10 @@ public class MatchCheck : MonoBehaviour
         int dCol = a._info._column - b._info._column;
         int dirRow = Math.Sign(dRow);
         int dirCol = Math.Sign(dCol);
-        if (dirRow == 1 && dirCol == 0) return PosType.vertical;
-        else if (dirRow == -1 && dirCol == 0) return PosType.vertical;
-        else if (dirRow == 0 && dirCol == 1) return PosType.horizontal;
-        else if (dirRow == 0 && dirCol == -1) return PosType.horizontal;
-        else if (dirRow == -1 && dirCol == -1) return PosType.leftDiagonal;
-        else if (dirRow == -1 && dirCol == 1) return PosType.rightDiagonal;
-        else if (dirRow == 1 && dirCol == -1) return PosType.rightDiagonal;
-        else if (dirRow == 1 && dirCol == 1) return PosType.leftDiagonal;
+        if (dirRow != 0 && dirCol == 0) return PosType.vertical;
+        else if (dirRow == 0 && dirCol != 0) return PosType.horizontal;
+        else if (dirRow * dirCol > 0 && Mathf.Abs(a._info._row - b._info._row) == Mathf.Abs(a._info._column - b._info._column)) return PosType.leftDiagonal;
+        else if (dirRow * dirCol <0 && Mathf.Abs(a._info._row - b._info._row) == Mathf.Abs(a._info._column - b._info._column)) return PosType.rightDiagonal;
         return PosType.invalid;
     }
     // xử lí khi nằm dọc
@@ -106,8 +102,6 @@ public class MatchCheck : MonoBehaviour
     // xử lí khi chéo trái xuống
     bool HandleCheckLeftDiagonal(SlotData a, SlotData b)
     {
-        if (Mathf.Abs(a._info._row - b._info._row) != Mathf.Abs(a._info._column - b._info._column))
-            return false;
         int minRow = Mathf.Min(a._info._row, b._info._row);
         int maxRow = Mathf.Max(a._info._row, b._info._row);
         int minCol = Mathf.Min(a._info._column,b._info._column);
@@ -123,8 +117,6 @@ public class MatchCheck : MonoBehaviour
     // xử lí khi chéo phải xuống
     bool HandleCheckRightDiagonal(SlotData a, SlotData b)
     {
-        if (Mathf.Abs(a._info._row - b._info._row) != Mathf.Abs(a._info._column - b._info._column))
-            return false;
         int minRow = Mathf.Min(a._info._row, b._info._row);
         int maxRow = Mathf.Max(a._info._row, b._info._row);
         int minCol = Mathf.Min(a._info._column, b._info._column);
@@ -143,9 +135,16 @@ public class MatchCheck : MonoBehaviour
     {
         int indexA = a._info._index;
         int indexB = b._info._index;
-        for(int i = indexA + 1; i < indexB; i++)
+        int minIndex = Mathf.Min(indexA, indexB);
+        int maxIndex = Mathf.Max(indexA, indexB);
+        Debug.Log("min: " + minIndex + "/max: " +  maxIndex);
+        for(int i = minIndex + 1; i < maxIndex; i++)
         {
-            if (_spawn.Slots[i] != null && (!_spawn.Slots[i]._isComplete && _spawn.Slots[i]._isData)) return false;
+            if (_spawn.Slots[i] != null &&(!_spawn.Slots[i]._isComplete && _spawn.Slots[i]._isData))
+            {
+                Debug.Log(_spawn.Slots[i]._info.value); return false;
+            }
+            
         }
         return true;
     }

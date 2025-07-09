@@ -2158,6 +2158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f599e419b3d46645bab44d64fca3c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawn: {fileID: 2035103543}
 --- !u!1 &761426490
 GameObject:
   m_ObjectHideFlags: 0
@@ -3874,7 +3875,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawn: {fileID: 2035103543}
   _numbText: {fileID: 1990307753}
-  _audioClip: {fileID: 0}
 --- !u!1 &1438143070
 GameObject:
   m_ObjectHideFlags: 0
